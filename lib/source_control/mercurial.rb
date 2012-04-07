@@ -37,20 +37,39 @@ module SourceControl
 
     def latest_revision
       pull_new_changesets
-      hg_output = hg('log', ['-v', '-r', 'tip'])
-      Mercurial::LogParser.new.parse(hg_output).first 
+
+      # If branch is set then honor it
+      if @branch
+        hg_output = hg('log', ['-v', '-l', '1', '-b', @branch])
+
+      # otherwise just get the very latest changeset regardless of branch
+      else
+        hg_output = hg('log', ['-v', '-r', 'tip'])
+      end
+
+      Mercurial::LogParser.new.parse(hg_output).first
     end
 
     def update(revision = nil)
       pull_new_changesets
+
+      update_local(revision)
+    end
+
+    def update_local(revision=nil)
       if revision
         hg("update", ['-r', revision.number])
+      elsif @branch
+        hg("update", ['-C', @branch])
       else
         hg("update")
       end
     end
 
     def up_to_date?(reasons = [])
+      # Change to the target branch before checking for new changesets
+      update_local
+
       _new_revisions = new_revisions
       if _new_revisions.empty?
         return true
@@ -70,7 +89,7 @@ module SourceControl
     end
 
     def revisions_since(revision)
-      log_output = hg("log", ['-v', '-r', "#{revision.number}:tip"])
+      log_output = hg("log", ['-v', '-r', "#{revision.number}:#{latest_revision.number}"])
       revs = LogParser.new.parse(log_output)
       revs.delete_if do |rev|
         rev.number == revision.number
