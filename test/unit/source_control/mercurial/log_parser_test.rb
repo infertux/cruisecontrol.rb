@@ -36,7 +36,7 @@ END
 
     def test_should_parse_single_changeset
       expected = [
-          Mercurial::Revision.new('865db',
+          Mercurial::Revision.new('865db66',
              "Marcus Ahnve",
              DateTime.parse("Mon Apr 02 15:42:14 2007 +0200"),
              "moved mercurial to model",
@@ -52,7 +52,7 @@ END
     end
 
     def test_should_parse_single_changeset
-      expected = [Mercurial::Revision.new('c3f57',
+      expected = [Mercurial::Revision.new('c3f57b2',
                      "Marcus Ahnve",
                      DateTime.parse("Mon Apr 02 16:14:59 2007 +0200"),
                      "moved mercurial back to plugin",
@@ -72,7 +72,7 @@ date:        Fri May 09 11:03:54 2008 -0600
 description:
 Fixing config/database.yml to not use the same database name for all databases
 END
-      expected = [Mercurial::Revision.new('6cb3d',
+      expected = [Mercurial::Revision.new('6cb3d52',
              "Alex Verkhovsky",
              DateTime.parse("Fri May 09 11:03:54 2008 -0600"),
              "Fixing config/database.yml to not use the same database name for all databases",
@@ -98,7 +98,7 @@ END
     end
 
     def test_parse_rev_number
-      assert_equal('c3f57', @parser.parse_for_rev_number(@@example_log_output_single))
+      assert_equal('c3f57b2', @parser.parse_for_rev_number(@@example_log_output_single))
     end
 
     def test_parse_files

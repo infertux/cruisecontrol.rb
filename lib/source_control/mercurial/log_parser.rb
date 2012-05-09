@@ -42,7 +42,7 @@ module SourceControl
       end
 
       def parse_for_rev_number(message)
-        message.match(/^changeset:\s+\d+:(.....)/)[1]
+        message.match(/^changeset:\s+\d+:(.......)/)[1]
       end
 
       def parse_for_files(message)
