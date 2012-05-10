@@ -57,10 +57,10 @@ module SourceControl
     end
 
     def update_local(revision=nil)
-      if revision
-        hg("update", ['-r', revision.number])
-      elsif @branch
+      if @branch
         hg("update", ['-C', @branch])
+      elsif revision
+        hg("update", ['-r', revision.number])
       else
         hg("update")
       end
