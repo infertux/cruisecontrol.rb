@@ -29,7 +29,8 @@ class BuildsController < ApplicationController
     @build = @project.find_build(params[:build])
     render :text => "Build #{params[:build].inspect} not found", :status => 404 and return unless @build
 
-    path = @build.artifact("#{params[:path]}.#{params[:format]}")
+    path = @build.artifact("#{params[:path]}")
+    format_path = @build.artifact("#{params[:path]}.#{params[:format]}")
 
     if File.directory? path
       if File.exists?(File.join(path, 'index.html'))
@@ -37,9 +38,9 @@ class BuildsController < ApplicationController
       else
         render :template => 'builds/show_dir_index'
       end
-    elsif File.exists? path
+    elsif File.exists? format_path
       disposition = params.has_key?("attachment") ? "attachment" : "inline"
-      send_file(path, :type => get_mime_type(path), :disposition => disposition, :stream => false)
+      send_file(format_path, :type => get_mime_type(format_path), :disposition => disposition, :stream => false)
     else
       render_not_found
     end
