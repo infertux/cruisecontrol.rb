@@ -1,8 +1,14 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
+
+require "#{Rails.root}/test/lib/file_sandbox"
+require "#{Rails.root}/test/lib/fake_source_control"
+require "#{Rails.root}/test/lib/build_factory"
+
 require 'rails/test_help'
 
-require 'mocha'
+require 'mocha/setup'
+require 'mocha/api'
 require 'ostruct'
 require 'stringio'
 

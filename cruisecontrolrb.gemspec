@@ -14,23 +14,26 @@ Gem::Specification.new do |s|
   s.homepage = 'http://cruisecontrolrb.thoughtworks.com'
   s.has_rdoc = false
 
-  [ [ "rails", "3.0.7" ],
-    [ "tzinfo", "0.3.27" ],
-    [ "rack", "1.2.3" ],
+  [ [ "rails", "3.2.13" ],
+    [ "tzinfo", "0.3.29" ],
+    [ "rack", "1.4.5" ],
     [ "bundler", nil ],
     [ "httparty", "0.6.1" ],
     [ "api_cache", "0.2.0" ],
     [ "xml-simple", '1.0.16' ],
-    [ "rake", "0.8.7" ],
+    #[ "rake", "0.8.7" ],
+    [ "rake", "0.9.2" ],
     [ "jquery-rails", '1.0.9' ],
     [ "abstract", "1.0.0" ],
+    [ "prototype-rails", "3.2.1"]
   ].each do |gem, version|
     s.add_dependency gem, version
   end
 
-  [ [ "rcov", '0.9.9' ],
-    [ "mocha", "0.9.12" ],
-    [ "rack-test", nil ],
+  [ #[ "rcov", '0.9.9' ],
+    [ "test-unit", "2.5.4"],
+    [ "mocha", "0.13.3" ],
+    [ "rack-test", '0.6.2' ],
   ].each do |gem, version|
     s.add_development_dependency gem, version
   end

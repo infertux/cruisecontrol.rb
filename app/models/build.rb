@@ -147,7 +147,7 @@ EOF
   end
   
   def url
-    dashboard_url = Configuration.dashboard_url
+    dashboard_url = ::Configuration.dashboard_url
     raise "Configuration.dashboard_url is not specified" if dashboard_url.nil? || dashboard_url.empty?
     dashboard_url + Rails.application.routes.url_helpers.build_path(:project => project, :build => to_param)
   end
@@ -157,7 +157,7 @@ EOF
   end
 
   def exceeds_max_file_display_length?(file)
-    file.exist? && Configuration.max_file_display_length.present? && file.size > Configuration.max_file_display_length
+    file.exist? && ::Configuration.max_file_display_length.present? && file.size > ::Configuration.max_file_display_length
   end
 
   def output_exceeds_max_file_display_length?
@@ -167,7 +167,7 @@ EOF
   def contents_for_display(file)
     return '' unless file.file? && file.readable?
 
-    file.read(Configuration.max_file_display_length)
+    file.read(::Configuration.max_file_display_length)
   end
 
   def command

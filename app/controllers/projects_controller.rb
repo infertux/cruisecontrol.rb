@@ -73,7 +73,7 @@ class ProjectsController < ApplicationController
   end
 
   def code
-    if Configuration.disable_code_browsing
+    if ::Configuration.disable_code_browsing
       render :text => "Code browsing disabled" and return
     end
 

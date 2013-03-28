@@ -34,7 +34,7 @@ module BuildsHelper
   end
   
   def format_build_log(log)
-    strip_ansi_colors(highlight_test_count(link_to_code(h(log))))
+    strip_ansi_colors(highlight_test_count(link_to_code(log)))
   end
   
   def link_to_code(log)
@@ -59,7 +59,7 @@ module BuildsHelper
       "This project has no custom configuration. Maybe it doesn't need it.<br/>" +
       "Otherwise, #{link_to('the manual', document_path('manual'))} can tell you how."
     else
-      h(settings)
+      settings
     end
   end
   

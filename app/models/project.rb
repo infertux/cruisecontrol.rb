@@ -7,16 +7,20 @@ class Project
   alias_method :id, :name
   
   class << self
-    attr_accessor_with_default :plugin_names, []
+    attr_accessor :plugin_names
+    def plugin_names
+      @plugin_names ||=[]
+    end
+
     attr_accessor :current_project
     
-    def all(dir=Configuration.projects_root)
+    def all(dir=::Configuration.projects_root)
       load_all(dir).map do |project_dir|
         load_project project_dir
       end
     end
     
-    def create(project_name, scm, dir=Configuration.projects_root)
+    def create(project_name, scm, dir=::Configuration.projects_root)
       Project.new(:name => project_name, :scm => scm).tap do |project|
         raise "Project named #{project.name.inspect} already exists in #{dir}" if Project.all(dir).include?(project)
         begin
@@ -48,7 +52,7 @@ class Project
       yield current_project
     end
     
-    def find(project_name, dir=Configuration.projects_root)
+    def find(project_name, dir=::Configuration.projects_root)
       # TODO: sanitize project_name to prevent a query injection attack here      
       path = dir.join(project_name)
       return nil unless File.directory?(path)
@@ -92,7 +96,7 @@ class Project
     attrs = attrs.with_indifferent_access
 
     @name = attrs[:name] || ""
-    @path = attrs[:path] || Configuration.projects_root.join(@name)
+    @path = attrs[:path] || ::Configuration.projects_root.join(@name)
     @scheduler = PollingScheduler.new(self)
     @plugins = []
     @config_tracker = ProjectConfigTracker.new(self.path)
@@ -215,11 +219,11 @@ class Project
   end
   
   def can_build_now?
-    !(building? || builder_down? || Configuration.disable_admin_ui)
+    !(building? || builder_down? || ::Configuration.disable_admin_ui)
   end
 
   def can_kill_builder?
-    !Configuration.disable_admin_ui
+    !::Configuration.disable_admin_ui
   end
   
   def building?
@@ -376,7 +380,7 @@ class Project
   end
 
   def build(revision = source_control.latest_revision, reasons = [])
-    if Configuration.serialize_builds
+    if ::Configuration.serialize_builds
       BuildSerializer.serialize(self) { build_without_serialization(revision, reasons) }
     else
       build_without_serialization(revision, reasons)
