@@ -31,8 +31,9 @@ class RoutingTest < ActionController::TestCase
       assert_routing '/projects/code/CruiseControl/my/code.rb',
         :controller => 'projects',
         :action => 'code',
+        :format => 'rb',
         :id => 'CruiseControl',
-        :path => 'my/code.rb'
+        :path => 'my/code'
     end
   end
   

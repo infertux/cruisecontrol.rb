@@ -28,7 +28,7 @@ class BuildSerializerTest < ActiveSupport::TestCase
     FileLock.expects(:new).returns(lock)
 
     assert_raise_with_message(RuntimeError, "some exception") do
-      @serializer.serialize { raise "some exception" }
+      @serializer.serialize { raise RuntimeError.new("some exception") }
     end
     
     assert_false lock.locked?

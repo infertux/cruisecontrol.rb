@@ -54,7 +54,8 @@ class Project
     
     def find(project_name, dir=::Configuration.projects_root)
       # TODO: sanitize project_name to prevent a query injection attack here      
-      path = dir.join(project_name)
+      path = dir.join(project_name).to_s
+
       return nil unless File.directory?(path)
       load_project(path)
     end

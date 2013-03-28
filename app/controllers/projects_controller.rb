@@ -12,8 +12,8 @@ class ProjectsController < ApplicationController
           render 'index'
         end
       end
-      format.rss { render :action => 'index_rss', :layout => false, :format => :xml }
-      format.cctray { render :action => 'index_cctray', :layout => false }
+      format.rss { render :action => 'index', :layout => false }
+      format.cctray { render :action => 'index', :format => :cctray, :layout => false }
       format.json { render :json => @projects.map { |p| project_to_attributes(p) } }
     end
   end
@@ -32,11 +32,12 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+
     render :text => "Project #{params[:id].inspect} not found", :status => 404 and return unless @project
 
     respond_to do |format|
       format.html { redirect_to :controller => "builds", :action => "show", :project => @project }
-      format.rss { render :action => 'show_rss', :layout => false }
+      format.rss { render :layout => false }
       format.json { render :json => project_to_attributes(@project) }
     end
   end

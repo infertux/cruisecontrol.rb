@@ -5,10 +5,11 @@ require "#{Rails.root}/test/lib/file_sandbox"
 require "#{Rails.root}/test/lib/fake_source_control"
 require "#{Rails.root}/test/lib/build_factory"
 
-require 'rails/test_help'
-
 require 'mocha/setup'
 require 'mocha/api'
+
+require 'rails/test_help'
+
 require 'ostruct'
 require 'stringio'
 
@@ -36,7 +37,7 @@ class ActiveSupport::TestCase
 
   def assert_raise_with_message(types, matcher, message = nil, &block)
     args = [types].flatten + [message]
-    exception = assert_raise(*args, &block)
+    exception = assert_raise(types, &block)
     assert_match matcher, exception.message, message
   end
   
