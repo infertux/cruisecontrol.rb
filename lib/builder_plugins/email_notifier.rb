@@ -34,7 +34,7 @@ class EmailNotifier < BuilderPlugin
   end
 
   def from
-    @from || Configuration.email_from
+    @from || ::Configuration.email_from
   end
 
   def build_finished(build)
@@ -52,6 +52,7 @@ class EmailNotifier < BuilderPlugin
   private
   
   def email(template, build, *args)
+    ::Rails::logger.info "EMAIL --- [#{from}] #{template} #{args.inspect}"
     BuildMailer.send(template, build, @emails, from, *args).deliver
     CruiseControl::Log.event("Sent e-mail to #{@emails.size == 1 ? "1 person" : "#{@emails.size} people"}", :debug)
   rescue

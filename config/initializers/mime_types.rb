@@ -6,4 +6,3 @@
 
 # custom MIME type for CCTray application
 Mime::Type.register "application/cctray", :cctray
-Mime::Type.register "text/xml", :rss

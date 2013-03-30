@@ -1,36 +1,56 @@
 <% if ::Configuration.dashboard_url -%>
+<p>
 <%= @message %>
+</p>
 
-CHANGES
--------
-<%= raw @build.changeset %>
+<p>
+CHANGES<br />
+-------<br />
+<%= @build.changeset.gsub(/\n/, '<br />').html_safe %>
+</p>
 
 <% unless @failures_and_errors.empty? -%>
-TEST FAILURES AND ERRORS
------------------------
-<%= @failures_and_errors %>
+<p>
+TEST FAILURES AND ERRORS<br />
+-----------------------<br />
+<%= @failures_and_errors.gsub(/\n/, '<br />') %>
+</p>
 
 <% end -%>
+<p>
 See <%= "#{@build.url}" %> for details.
+</p>
 <% else -%>
-<%= @message %>
+<p>
+<%= @message.gsub(/\n/, '<br />') %>
+</p>
 
+<p>
   Note: if you set Configuration.dashboard_url in site_config.rb, you'd see a link to the build page here.
+</p>
 
-CHANGES
--------
-<%= raw @build.changeset %>
+<p>
+CHANGES<br />
+-------<br />
+<%= @build.changeset.gsub(/\n/, '<br />').html_safe %>
+</p>
 
-BUILD LOG
----------
+<p>
+BUILD LOG<br />
+---------<br />
 <% if @build.output_exceeds_max_file_display_length? %>
 The output below has been truncated to <%= number_to_human_size(::Configuration.max_file_display_length) %>.
 View <%= link_to "the full log", build_artifact_path(:project => @build.project.name, :build => @build.label, :path => 'build.log') %> for the rest.
 <% end %>
+</p>
 
-<%= raw @build.output %>
+<p>
+<%= @build.output.gsub(/\n/, '<br />').html_safe %>
+</p>
 
-PROJECT SETTINGS
-----------------
-<%= raw @build.project_settings %>
+<p>
+PROJECT SETTINGS<br />
+----------------<br />
+<%= @build.project_settings.gsub(/\n/, '<br />').html_safe %>
+</p>
 <% end -%>
